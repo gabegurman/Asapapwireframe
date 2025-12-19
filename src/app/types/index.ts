@@ -151,10 +151,14 @@ export interface AuditEntry {
 export type Screen = 
   | 'dashboard' 
   | 'inbox' 
+  | 'inbox-invoices'
+  | 'inbox-statements'
+  | 'inbox-other'
+  | 'invoices'
   | 'document-review' 
   | 'vendors' 
+  | 'bills' 
   | 'approvals' 
   | 'exceptions' 
-  | 'bills' 
   | 'reports' 
   | 'settings';

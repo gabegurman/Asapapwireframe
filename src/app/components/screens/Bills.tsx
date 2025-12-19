@@ -3,6 +3,7 @@ import { FileText, CheckCircle, AlertCircle, ExternalLink, Clock } from 'lucide-
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { Input } from '../ui/input';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../ui/sheet';
 import { mockDocuments, mockAuditEntries } from '../../data/mockData';
 import type { Document } from '../../types';
@@ -51,6 +52,11 @@ const getSyncStatusColor = (status?: string) => {
 
 export function Bills() {
   const [selectedBill, setSelectedBill] = useState<Document | null>(null);
+  const [poNumber, setPoNumber] = useState('');
+  const [sageHaulerNumber, setSageHaulerNumber] = useState('');
+  const [dateRangeFrom, setDateRangeFrom] = useState('');
+  const [dateRangeTo, setDateRangeTo] = useState('');
+  const [customerInvoiceNumber, setCustomerInvoiceNumber] = useState('');
 
   // Filter for posted/approved bills
   const bills = mockDocuments.filter(d => 
@@ -109,13 +115,13 @@ export function Bills() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendor</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hauler</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice #</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">GL Account</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ERP ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hauler ID</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sync Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
@@ -192,7 +198,7 @@ export function Bills() {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-600">Vendor</p>
+                      <p className="text-sm text-gray-600">Hauler</p>
                       <p className="font-medium text-gray-900">{selectedBill.vendor}</p>
                     </div>
                     <div>
@@ -217,6 +223,73 @@ export function Bills() {
                         {selectedBill.status.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                       </Badge>
                     </div>
+                  </div>
+                </Card>
+
+                {/* Data Verification */}
+                <Card className="p-4">
+                  <h3 className="font-medium text-gray-900 mb-4">Data Verification</h3>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1.5">
+                        PO Number
+                      </label>
+                      <Input 
+                        value={poNumber}
+                        onChange={(e) => setPoNumber(e.target.value)}
+                        placeholder="Enter PO number"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1.5">
+                        Sage Hauler #
+                      </label>
+                      <Input 
+                        value={sageHaulerNumber}
+                        onChange={(e) => setSageHaulerNumber(e.target.value)}
+                        placeholder="Enter Sage hauler number"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-gray-600 mb-1.5">
+                          Service Date From
+                        </label>
+                        <Input 
+                          type="date"
+                          value={dateRangeFrom}
+                          onChange={(e) => setDateRangeFrom(e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-600 mb-1.5">
+                          Service Date To
+                        </label>
+                        <Input 
+                          type="date"
+                          value={dateRangeTo}
+                          onChange={(e) => setDateRangeTo(e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1.5">
+                        Customer Invoice #
+                      </label>
+                      <Input 
+                        value={customerInvoiceNumber}
+                        onChange={(e) => setCustomerInvoiceNumber(e.target.value)}
+                        placeholder="Enter customer invoice number"
+                      />
+                    </div>
+
+                    <Button className="w-full mt-2">
+                      Save Verification Data
+                    </Button>
                   </div>
                 </Card>
 
